@@ -1,30 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {ClientApi} from "./service/api/ClientApi";
-import {Client} from "./model/Client";
+// @ts-ignore
+import theme from "@rebass/preset";
+import Client from "./component/Client";
+import {ClientModel} from "./model/ClientModel";
+import { ThemeProvider } from "emotion-theming";
 
 const App = () => {
-  const init: Client[] = [];
-  const [clients, setClients] = useState(init);
+    const init: ClientModel[] = [];
+    const [clients, setClients] = useState(init);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await ClientApi.fetchClients();
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await ClientApi.fetchClients();
 
-      setClients(result);
-    };
+            setClients(result);
+        };
 
-    fetchData();
-  }, [])
+        {
+            clients.map((value: ClientModel) => value.host)
+        }
 
-  return (
-    <div className="App">
-      {
-        clients.map((value: Client) => value.host)
-      }
-    </div>
-  );
+        fetchData();
+    }, [])
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Client clients={clients}/>
+        </ThemeProvider>
+    );
 }
 
 export default App;

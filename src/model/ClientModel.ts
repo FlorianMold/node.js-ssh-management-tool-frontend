@@ -1,4 +1,4 @@
-export class Client {
+export class ClientModel {
     private _id: number;
     private _host: string;
     private _username: string;
@@ -31,5 +31,9 @@ export class Client {
 
     set id(value: number) {
         this._id = value;
+    }
+
+    toString(): string {
+        return `${this.id} ${this.host} ${this.username}`
     }
 }
