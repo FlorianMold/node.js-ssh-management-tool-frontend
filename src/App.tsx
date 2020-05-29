@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {ClientApi} from "./service/api/ClientApi";
-// @ts-ignore
-import theme from "@rebass/preset";
-import Client from "./component/Client";
+import Client from "./components/client/Client";
 import {ClientModel} from "./model/ClientModel";
-import { ThemeProvider } from "emotion-theming";
+import {Container} from "react-bootstrap";
 
 const App = () => {
     const init: ClientModel[] = [];
@@ -17,18 +15,13 @@ const App = () => {
 
             setClients(result);
         };
-
-        {
-            clients.map((value: ClientModel) => value.host)
-        }
-
         fetchData();
     }, [])
 
     return (
-        <ThemeProvider theme={theme}>
+        <Container className={"mt-4"}>
             <Client clients={clients}/>
-        </ThemeProvider>
+        </Container>
     );
 }
 
