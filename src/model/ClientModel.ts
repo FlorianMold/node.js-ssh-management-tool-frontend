@@ -9,6 +9,12 @@ export class ClientModel {
         this._username = username;
     }
 
+    static emptyClient() {
+        return new ClientModel(
+          0, "", ""
+        );
+    }
+
     get host(): string {
         return this._host;
     }

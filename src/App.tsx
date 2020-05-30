@@ -4,12 +4,13 @@ import {ClientApi} from "./service/api/ClientApi";
 import Client from "./components/client/Client";
 import {ClientModel} from "./model/ClientModel";
 import {Container} from "react-bootstrap";
+import Home from "./components/home/home";
 
 const App = () => {
     const init: ClientModel[] = [];
     const [clients, setClients] = useState(init);
     const [page, setPage] = useState("clients");
-    const [client, setClient] = useState<Partial<ClientModel>>({});
+    const [client, setClient] = useState(ClientModel.emptyClient());
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,13 +31,21 @@ const App = () => {
         setPage("home");
     }
 
+    /**
+     * Handles the click on the back-button in Home-view.
+     */
+    const handleGoBack= () => {
+        setClient(ClientModel.emptyClient);
+        setPage("clients");
+    }
+
     let shownPage;
     switch (page) {
         case "clients":
             shownPage = <Client clients={clients} onClickClient={handleClickClient}/>;
             break;
         case "home":
-            shownPage = (<h1>{client.host}</h1>)
+            shownPage = (<Home client={client} onGoBack={handleGoBack} />)
             break;
         default:
             shownPage = <div>Error</div>
