@@ -7,4 +7,6 @@ export class OperationApi {
         new OperationModel(2, "cat"),
     ];
 
+    static executeOperation = async (operation: OperationModel, value: string) => "Response";
+
 }

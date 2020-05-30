@@ -16,6 +16,8 @@ const Home = ({client, onGoBack}: HomeProps) => {
     const initOperations: OperationModel[] = [];
     const [operation, setOperation] = useState(OperationModel.emptyOperation())
     const [operations, setOperations] = useState(initOperations);
+    const [operationResponse, setOperationResponse] = useState("");
+    const [operationExecuted, setOperationExecuted] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +29,17 @@ const Home = ({client, onGoBack}: HomeProps) => {
 
     const handleOnClickOperation = (operation: OperationModel) => {
         setOperation(operation);
+        setOperationResponse("");
+        setOperationExecuted(false);
+    }
+
+    const handleExecuteOperation= (value: string) => {
+        const fetchData = async () => {
+            const result = await OperationApi.executeOperation(operation, value);
+            setOperationResponse(result);
+            setOperationExecuted(true);
+        };
+        fetchData();
     }
 
     return (
@@ -42,7 +55,15 @@ const Home = ({client, onGoBack}: HomeProps) => {
                 </Col>
                 <Col md={9}>
                     {
-                        operation.id > 0 ? <OperationExecution operation={operation}/> : "Choose an operation"
+                        operation.id > 0 ?
+                            <OperationExecution
+                                operation={operation}
+                                handleExecuteOperation={handleExecuteOperation}
+                                operationResponse={operationResponse}
+                                operationExecuted={operationExecuted}
+                            />
+                                :
+                            "Choose an operation"
                     }
                 </Col>
             </Row>
