@@ -5,6 +5,7 @@ import Operations from "../operations/Operations";
 import {OperationModel} from "../../model/OperationModel";
 import {ClientApi} from "../../service/api/ClientApi";
 import {OperationApi} from "../../service/api/OperationApi";
+import OperationExecution from "../OperationExecution/OperationExecution";
 
 type HomeProps = {
     client: ClientModel,
@@ -40,7 +41,9 @@ const Home = ({client, onGoBack}: HomeProps) => {
                     />
                 </Col>
                 <Col md={9}>
-                    <div>here</div>
+                    {
+                        operation.id > 0 ? <OperationExecution operation={operation}/> : "Choose an operation"
+                    }
                 </Col>
             </Row>
             <Button className="mt-3" onClick={onGoBack}>Back</Button>
