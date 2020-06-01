@@ -6,7 +6,7 @@ export class ClientApi {
     /**
      * Fetches all clients.
      */
-//static fetchClients = async () => (await RequestService.get("clients")).payload;
+    //static fetchClients = async () => (await RequestService.get("clients")).payload;
 
     static fetchClients = async () => [
         new ClientModel(1, "localhost", "florian"),

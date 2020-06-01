@@ -4,16 +4,20 @@ import {Button} from "react-bootstrap";
 
 type OperationExecutionProps = {
     operation: OperationModel,
-    handleExecuteOperation: (value: string) => void,
+    onExecuteOperation: (value: string) => void,
     operationResponse: string,
     operationExecuted: boolean
 }
 
-const OperationExecution = ({operation, handleExecuteOperation, operationResponse, operationExecuted}: OperationExecutionProps) => {
+const OperationExecution = ({operation, onExecuteOperation, operationResponse, operationExecuted}: OperationExecutionProps) => {
     const [input, setInput] = useState("");
 
     const handleInputChange = (ev: any) => {
         setInput(ev.target.value);
+    }
+
+    const handleExecuteOperation = () => {
+        onExecuteOperation(input);
     }
 
     return (
@@ -22,7 +26,7 @@ const OperationExecution = ({operation, handleExecuteOperation, operationRespons
             <div className="input-group mb-3">
                 <input type="text" className="form-control" placeholder="Value" value={input} onChange={handleInputChange}/>
                     <div className="input-group-append">
-                        <Button variant={"primary"} onClick={() => handleExecuteOperation(input)}>Execute</Button>
+                        <Button variant={"primary"} onClick={() => handleExecuteOperation()}>Execute</Button>
                     </div>
             </div>
             {
