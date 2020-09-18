@@ -1,6 +1,6 @@
 import {requestInstance} from "./request";
-import {HttpRequestPayload} from "./http/HttpRequestPayload";
-import {HttpResponse} from "./http/HttpResponse";
+import {AxiosResponse} from "axios";
+
 
 /**
  * Performs a get-request.
@@ -8,8 +8,8 @@ import {HttpResponse} from "./http/HttpResponse";
  * @param resource resource to be requested.
  * @param params request-params
  */
-export const get = async (resource: string, params?: object): Promise<HttpResponse> => {
-    return new HttpResponse(await requestInstance.get(resource, params));
+export const get = async (resource: string, params?: object): Promise<AxiosResponse> => {
+    return await requestInstance.get(resource, params);
 }
 
 /**
@@ -18,8 +18,8 @@ export const get = async (resource: string, params?: object): Promise<HttpRespon
  * @param resource resource that is requested.
  * @param payload payload of the request.
  */
-export const post = async (resource: string, payload: HttpRequestPayload): Promise<HttpResponse> => {
-    return new HttpResponse(await requestInstance.post(resource, payload));
+export const post = async (resource: string, payload: any): Promise<AxiosResponse> => {
+    return await requestInstance.post(resource, payload);
 }
 
 /**
@@ -28,8 +28,8 @@ export const post = async (resource: string, payload: HttpRequestPayload): Promi
  * @param resource resource that is requested.
  * @param payload payload of the request.
  */
-export const put = async (resource: string, payload: HttpRequestPayload): Promise<HttpResponse> => {
-    return new HttpResponse(await requestInstance.put(resource, payload));
+export const put = async (resource: string, payload: any): Promise<AxiosResponse> => {
+    return await requestInstance.put(resource, payload);
 }
 
 /**
@@ -38,8 +38,8 @@ export const put = async (resource: string, payload: HttpRequestPayload): Promis
  * @param resource resource that is requested.
  * @param payload payload of the request.
  */
-export const patch = async (resource: string, payload: HttpRequestPayload): Promise<HttpResponse> => {
-    return new HttpResponse(await requestInstance.patch(resource, payload));
+export const patch = async (resource: string, payload: any): Promise<AxiosResponse> => {
+    return await requestInstance.patch(resource, payload);
 }
 
 /**
@@ -47,7 +47,7 @@ export const patch = async (resource: string, payload: HttpRequestPayload): Prom
  *
  * @param resource resource to be deleted.
  */
-export const remove = async (resource: string): Promise<HttpResponse> => {
-    return new HttpResponse(await requestInstance.delete(resource));
+export const remove = async (resource: string): Promise<AxiosResponse> => {
+    return await requestInstance.delete(resource);
 }
 

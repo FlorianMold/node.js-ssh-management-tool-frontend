@@ -4,21 +4,18 @@ import {ClientApi} from "./service/api/ClientApi";
 import Client from "./components/client/Client";
 import {ClientModel} from "./model/ClientModel";
 import {Container} from "react-bootstrap";
-import Home from "./components/home/home";
+import Home from "./components/home/Home";
 
 const App = () => {
-    const init: ClientModel[] = [];
-    const [clients, setClients] = useState(init);
+    const [clients, setClients] = useState<ClientModel[]>([]);
     const [page, setPage] = useState("clients");
-    const [client, setClient] = useState(ClientModel.emptyClient());
+    const [client, setClient] = useState<ClientModel | null>(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await ClientApi.fetchClients();
-
-            setClients(result);
-        };
-        fetchData();
+        ClientApi.fetchClients(async result => {
+            const data = (await result).data;
+            setClients(data);
+        });
     }, []);
 
     /**
@@ -34,8 +31,8 @@ const App = () => {
     /**
      * Handles the click on the back-button in Home-view.
      */
-    const handleGoBack= () => {
-        setClient(ClientModel.emptyClient);
+    const handleGoBack = () => {
+        setClient(null);
         setPage("clients");
     }
 

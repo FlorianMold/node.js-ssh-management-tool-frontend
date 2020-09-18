@@ -5,26 +5,23 @@ import Operations from "../operations/Operations";
 import {OperationModel} from "../../model/OperationModel";
 import {OperationApi} from "../../service/api/OperationApi";
 import OperationExecution from "../OperationExecution/OperationExecution";
-import {SpeedtestApi} from "../../service/api/SpeedtestApi";
 
 type HomeProps = {
-    client: ClientModel,
+    client: ClientModel | null,
     onGoBack: () => void
 }
 
 const Home = ({client, onGoBack}: HomeProps) => {
-    const initOperations: OperationModel[] = [];
-    const [operation, setOperation] = useState(OperationModel.emptyOperation())
-    const [operations, setOperations] = useState(initOperations);
+    const [operation, setOperation] = useState<OperationModel | null>(null)
+    const [operations, setOperations] = useState([]);
     const [operationResponse, setOperationResponse] = useState<any>({});
     const [operationExecuted, setOperationExecuted] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await OperationApi.fetchOperations();
-            setOperations(result);
-        };
-        fetchData();
+        OperationApi.fetchOperations(async result => {
+            const data = (await result).data
+            setOperations(data)
+        });
     }, []);
 
     const handleOnClickOperation = (operation: OperationModel) => {
@@ -33,19 +30,17 @@ const Home = ({client, onGoBack}: HomeProps) => {
         setOperationExecuted(false);
     }
 
-    const onExecuteOperation = (value: string) => {
-        const fetchData = async () => {
-            const result = await SpeedtestApi.getInternetSpeed();
-            console.log(result)
-            setOperationResponse(result);
+    const onExecuteOperation = (input: string) => {
+        OperationApi.executeOperation(client?.id, operation?.id, input, async (result) => {
+            const data = (await result).data
+            setOperationResponse(data);
             setOperationExecuted(true);
-        };
-        fetchData();
+        });
     }
 
     return (
         <>
-            <h1>{client.host}</h1>
+            <h1>{client?.host}</h1>
             <Row>
                 <Col md={3}>
                     <Operations
@@ -56,14 +51,14 @@ const Home = ({client, onGoBack}: HomeProps) => {
                 </Col>
                 <Col md={9}>
                     {
-                        operation.id > 0 ?
+                        operation ?
                             <OperationExecution
                                 operation={operation}
                                 onExecuteOperation={onExecuteOperation}
                                 operationResponse={operationResponse}
                                 operationExecuted={operationExecuted}
                             />
-                                :
+                            :
                             "Choose an operation"
                     }
                 </Col>

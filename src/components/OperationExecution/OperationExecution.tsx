@@ -5,7 +5,7 @@ import {Button} from "react-bootstrap";
 type OperationExecutionProps = {
     operation: OperationModel,
     onExecuteOperation: (value: string) => void,
-    operationResponse: string,
+    operationResponse: [],
     operationExecuted: boolean
 }
 
@@ -30,7 +30,7 @@ const OperationExecution = ({operation, onExecuteOperation, operationResponse, o
                     </div>
             </div>
             {
-                operationExecuted ? <div>{operation.name + ' ' + input} {operationResponse}</div> : null
+                operationExecuted ? <div><b>{operation.name + ': ' + input}</b><br/><br/> <ul>{operationResponse.map(resp => <li>{resp}</li>)}</ul></div> : null
             }
         </>
     )

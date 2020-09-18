@@ -4,7 +4,7 @@ import {OperationModel} from "../../model/OperationModel";
 import styles from "./Operations.module.css"
 
 type OperationsProps = {
-    operation: OperationModel,
+    operation: OperationModel | null,
     operations: OperationModel[],
     onClickOperation: (operation: OperationModel) => void
 }
@@ -14,7 +14,7 @@ const Operations = ({operation, operations, onClickOperation}: OperationsProps) 
         <ListGroup as="ul">
             {
                 operations.map(value => {
-                        return operation.id === value.id ?
+                        return operation?.id === value.id ?
                             <ListGroup.Item
                                 className={styles.listItem}
                                 active
